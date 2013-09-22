@@ -20,7 +20,6 @@ class Ship
     for i=#@shoots,1,-1 do
       bullet = @shoots[i]
       if bullet\shouldDie! then
-        print "WTF!",bullet.y
         table.remove(@shoots,i)
       else 
         bullet\update dt

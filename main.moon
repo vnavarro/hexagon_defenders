@@ -71,20 +71,6 @@ love.keypressed = (key,u) ->
   if key == " " then
     shoot = true
     print "shoot"
-  if key == "return" then
-    -- step += 0.05
-    -- step = step % (2*math.pi)
-    -- spXOld, spYOld = spX,spY
-    -- spX = screenWidth/2 - 10  + ((circleRadius+20)*math.sin(step))
-    -- spY = screenHeight/2 - 10 - ((circleRadius+20)*math.cos(step))
-    dBC = math.sqrt(math.pow(spX-spXOld,2)+math.pow(spY-spYOld,2))
-    aX,aY = screenWidth/2,screenHeight/2
-    dAC = math.sqrt(math.pow(spX-aX,2)+math.pow(spY-aY,2))
-    angularCoeficient = (spY-aY)/(spX-aX)
-    tangAngle = 1/angularCoeficient --dBC / dAC
-    angle += 0.05 --math.atan(tangAngle)
-    angle = angle % (2*math.pi)
-    print angle,math.deg(angle)
 
 
 
