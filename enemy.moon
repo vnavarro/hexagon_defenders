@@ -15,16 +15,16 @@ class Enemy
   generatePosition: =>
     @side = math.random(4)
     xLowerLimit, xUpperLimit, yLowerLimit, yUpperLimit = 0
-    if @side == LEFT then
+    if @side == LEFT
       xLowerLimit, xUpperLimit = -(@width*2),0
       yLowerLimit, yUpperLimit = @height,Utils.screenHeight-@height
-    else if @side == TOP then
+    elseif @side == TOP
       xLowerLimit, xUpperLimit = 0,Utils.screenWidth
       yLowerLimit, yUpperLimit = -(@height*2),0
-    else if @side == RIGHT then
+    elseif @side == RIGHT
       xLowerLimit, xUpperLimit = Utils.screenWidth,Utils.screenWidth+(@width*2)
       yLowerLimit, yUpperLimit = 0,Utils.screenHeight
-    else if @side == BOTTOM then
+    elseif @side == BOTTOM
       xLowerLimit, xUpperLimit = 0,Utils.screenWidth
       yLowerLimit, yUpperLimit = Utils.screenHeight,Utils.screenHeight+(@height*2)
 
@@ -76,3 +76,11 @@ class Enemy
     --   @x -= @speed * dt
     -- else if @side == BOTTOM then
     --   @x -= @speed * dt
+  
+  collidesWithSprite: (sprite) =>
+    -- calculatedX = (sprite.y - @y + (sprite.angle * @x))/sprite.angle
+    -- print "Testing collision:",sprite.x,calculatedX,sprite.y
+    -- print "Enemy:",@x,@y,(@x+@width),(@y+@height)
+    fitsOnXAxis = sprite.x >= @x and sprite.x <= (@x+@width)
+    fitsOnYAxis = sprite.y >= @y and sprite.y <= (@y+@height)
+    return fitsOnYAxis and fitsOnXAxis 

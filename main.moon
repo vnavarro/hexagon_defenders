@@ -40,7 +40,7 @@ hexaShip = Ship(spX,spY)
 love.update = (dt) -> 
   if love.keyboard.isDown("left") 
     hexaShip\goLeft!
-  else if love.keyboard.isDown("right")
+  elseif love.keyboard.isDown("right")
     hexaShip\goRight!
   hexaShip\update dt
 
@@ -58,7 +58,13 @@ love.update = (dt) ->
       currentEnemy\destroy!
       table.remove(enemiesList,i)   
     else
-      currentEnemy\update dt
+      for i=#hexaShip.shoots,1,-1 do
+        if currentEnemy.isDead == false and currentEnemy\collidesWithSprite hexaShip.shoots[i] then
+          print "Should destroy enemy and bullet!"
+          currentEnemy\destroy!
+          table.remove(enemiesList,i)
+          hexaShip\markBulletToDestroy i
+      currentEnemy\update dt      
 
 love.draw = ->  
   love.graphics.setColor(255, 255, 255)
@@ -79,7 +85,6 @@ love.keypressed = (key,u) ->
     debug.debug()  
   if key == " " then
     shoot = true
-    print "shoot"
 
 
 

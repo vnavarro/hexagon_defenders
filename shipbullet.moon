@@ -4,21 +4,28 @@ class ShipBullet
   new:(sX,sY,sAngle) =>
     @x = sX
     @y = sY
-    @speed = 200
+    @speed = 220
     @angle = sAngle
-    @width = 10
-    @height = 10
+    @width = 5
+    @height = 5
+    @destroy = false
 
   draw: =>
-    Utils.rotateAroundCenter(@angle)
+    -- Utils.rotateAroundCenter(@angle)
     love.graphics.setColor(0, 255, 0)
-    love.graphics.rectangle("fill", @x+@width/2, @y, @width, @height)
-    Utils.rotateAroundCenter(-@angle)
+    love.graphics.rectangle("fill", @x+10, @y, @width, @height)
+    -- Utils.rotateAroundCenter(-@angle)
 
-  update: (dt) =>
+  update: (dt) =>    
     currentSpeed = (@speed * dt)
-    @y -= currentSpeed
+    -- @y -= currentSpeed
+    @move dt
 
   shouldDie: =>    
-    -- math.abs(@y) > Utils.screenWidth
-    @y < -200 or @y > Utils.screenWidth + 100
+    return @destroy if @destroy
+    @destroy = @y < -200 or @y > Utils.screenWidth + 100
+    return @destroy
+
+  move:(dt) =>
+    @x += @speed * dt * math.sin @angle
+    @y -= @speed * dt * math.cos @angle
