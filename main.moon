@@ -4,6 +4,13 @@ Utils = require "utils"
 Planet = require "planet"
 
 --Game Variables
+GAME_STATUS = {
+  MENU: 1,
+  GAME: 2,
+  PAUSE: 3,
+  GAMEOVER: 4
+}
+gameStatus = GAME_STATUS.GAME
 circleRadius = 100
 step = 0
 angle = 0
@@ -33,6 +40,8 @@ hexaShip = Ship(spX,spY)
 planet = Planet()
 
 love.update = (dt) -> 
+  return if gameStatus == GAME_STATUS.GAMEOVER    
+
   if love.keyboard.isDown("left") 
     hexaShip\goLeft!
   elseif love.keyboard.isDown("right")
@@ -57,7 +66,10 @@ love.update = (dt) ->
           currentEnemy\destroy!
           table.remove(enemiesList,i)
           hexaShip\markBulletToDestroy i
-      currentEnemy\update dt      
+      currentEnemy\update dt 
+
+  if planet.energy <= 0
+    gameStatus = GAME_STATUS.GAMEOVER
 
 love.draw = ->  
   planet\draw!
