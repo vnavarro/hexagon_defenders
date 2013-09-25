@@ -1,10 +1,9 @@
 Ship = require "ship"
 Enemy = require "enemy"
-Utils = require "Utils"
+Utils = require "utils"
+Planet = require "planet"
 
 --Game Variables
-squareRotation = 0
-squarePositon = {x: 10,y: 10}
 circleRadius = 100
 step = 0
 angle = 0
@@ -19,11 +18,6 @@ counterLimit = 2
 
 enemiesList = {}
 
-rotateAroundCenter = (angle) ->
-    love.graphics.translate(Utils.screenWidth/2, Utils.screenHeight/2)
-    love.graphics.rotate(angle)
-    love.graphics.translate(-Utils.screenWidth/2, -Utils.screenHeight/2)
-
 isInsidePlanet = (sprite) ->
   math.pow((sprite.x - Utils.screenCenterX),2) + math.pow((sprite.y - Utils.screenCenterY),2) < math.pow(circleRadius,2)
 
@@ -36,6 +30,7 @@ spY = Utils.screenHeight/2 - 10 - ((circleRadius+20)*math.cos(step))
 spXOld, spYOld = spX,spY
 
 hexaShip = Ship(spX,spY)
+planet = Planet()
 
 love.update = (dt) -> 
   if love.keyboard.isDown("left") 
@@ -52,11 +47,9 @@ love.update = (dt) ->
   for i=#enemiesList,1,-1 do    
     currentEnemy = enemiesList[i]
     if isInsidePlanet currentEnemy then
-      -- TODO: planet class
-      -- planet\removeEnergy!
-      -- end    
+      planet\hit!
       currentEnemy\destroy!
-      table.remove(enemiesList,i)   
+      table.remove(enemiesList,i)         
     else
       for i=#hexaShip.shoots,1,-1 do
         if currentEnemy.isDead == false and currentEnemy\collidesWithSprite hexaShip.shoots[i] then
@@ -67,8 +60,7 @@ love.update = (dt) ->
       currentEnemy\update dt      
 
 love.draw = ->  
-  love.graphics.setColor(255, 255, 255)
-  love.graphics.circle( "fill", Utils.screenWidth/2, Utils.screenHeight/2, circleRadius, 100 )
+  planet\draw!
 
   hexaShip\draw!
   for i=#enemiesList,1,-1 do
@@ -77,6 +69,9 @@ love.draw = ->
   if shoot then
     hexaShip\shoot!
     shoot = false
+
+  love.graphics.printf "Hex-a-gon energy:", 10, 20, 250, "left"
+  love.graphics.printf planet.energy, 150, 20, 100, "left"
 
 
 love.keypressed = (key,u) ->
