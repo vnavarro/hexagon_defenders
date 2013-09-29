@@ -25,6 +25,22 @@ class Ship
     -- @angle += math.atan(tangAngle)
     -- @angle = @angle % (2*math.pi)
 
+  goRight: =>
+    @angle += 0.025
+    @angle = @angle % (2*math.pi)
+
+    @step += 0.025
+    @step = @step % (2*math.pi)
+    @move!
+
+  goLeft: =>
+    @angle -= 0.025
+    @angle = @angle % (2*math.pi)
+
+    @step -= 0.025
+    @step = @step % (2*math.pi)
+    @move!
+
   rotateAroundCenter:(back) =>
     love.graphics.translate(@x+10,@y+10)
     if back
@@ -55,22 +71,6 @@ class Ship
         @destroyBullet i
       else 
         bullet\update dt
-
-  goRight: =>
-    @angle += 0.025
-    @angle = @angle % (2*math.pi)
-
-    @step += 0.025
-    @step = @step % (2*math.pi)
-    @move!
-
-  goLeft: =>
-    @angle -= 0.025
-    @angle = @angle % (2*math.pi)
-
-    @step -= 0.025
-    @step = @step % (2*math.pi)
-    @move!
     
   shoot: =>
     @shoots[#@shoots+1] = ShipBullet(@x,@y,@angle)
