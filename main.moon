@@ -2,31 +2,20 @@ Utils = require "utils"
 Menu = require "menu"
 Level = require "level"
 
-GAME_SCREENS = {menu: 0,game: 1,ranking: 2}
-
 -- Game Variables
 local currentScreenObject
 local currentScreen
 local bgMusic
 local audioOn
 
-isAtMenu = ->
-  currentScreen ==  GAME_SCREENS.menu
-
-setAtGame = ->
-  currentScreen =  GAME_SCREENS.game
-
-setAtMenu = ->
-  currentScreen =  GAME_SCREENS.menu
-
 openGame = ->
   Utils.gameStatus = Utils.GAME_STATUS.GAME
   currentScreenObject = Level()
 
-openMenu = ->
+export openMenu = ->
   -- start\stop!
   -- start\rewind!        
-  setAtMenu!
+  Utils.gameStatus = Utils.GAME_STATUS.MENU
   currentScreenObject = Menu openGame
 
 love.load = ->  
@@ -52,7 +41,7 @@ love.draw = ->
 love.keypressed = (key,u) ->
   if key == "lctrl" then --set to whatever key you want to use
     debug.debug()  
-  if Utils.gameStatus == Utils.GAME_STATUS.GAME    
+  if currentScreenObject.keypressed
     currentScreenObject\keypressed (key)
   if Utils.gameStatus == Utils.GAME_STATUS.MENU
     if key == "down"

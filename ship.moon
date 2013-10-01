@@ -8,6 +8,7 @@ class Ship
     @angle = 0
     @shoots = {}
     @step = 0
+    @image = love.graphics.newImage("player.png")
 
   move: =>
     -- @step += 0.05
@@ -56,7 +57,8 @@ class Ship
     @rotateAroundCenter false
     
     love.graphics.setColor(255, 255, 0)
-    love.graphics.rectangle("fill", @x, @y, 20, 20)     
+    -- love.graphics.rectangle("fill", @x, @y, 20, 20)   
+    love.graphics.draw(@image,@x,@y-5)  
 
     @rotateAroundCenter true
 

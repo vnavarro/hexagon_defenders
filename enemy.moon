@@ -5,12 +5,14 @@ LEFT, TOP, RIGHT, BOTTOM = 1,2,3,4
 class Enemy
   new:() =>
     math.randomseed(os.time())
-    @color = {r:math.random(0,255),g:math.random(0,255),b:math.random(0,255)}
+    @color = {r:math.random(25,255),g:math.random(25,255),b:math.random(25,255)}
     @angle = math.random(0,2*math.pi)
-    @width,@height = 20,20
+    @width,@height = 25,25
     @generatePosition!
-    @speed = 50
+    @speed = 50 * math.random(0.8,1.8)
     @isDead = false
+    @segments = 6
+    @radius = 15
 
   generatePosition: =>
     @side = math.random(4)
@@ -37,7 +39,8 @@ class Enemy
     return if @isDead
 
     love.graphics.setColor(@color.r, @color.g, @color.b)
-    love.graphics.rectangle("fill", @x, @y, @width, @height)
+    -- love.graphics.rectangle("fill", @x, @y, @width, @height)
+    love.graphics.circle("fill",@x,@y,@radius,@segments)
 
   update:(dt)=>
     return if @isDead
